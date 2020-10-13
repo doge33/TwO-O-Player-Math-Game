@@ -3,7 +3,7 @@ class Game
   def initialize(p1, p2)
     @player1 = p1
     @player2 = p2
-    @players = [@player1, @player2]
+    @players = [@player1, @player2].shuffle
   end
 
   def correct_sum(n1, n2)
@@ -27,7 +27,7 @@ class Game
     
   end
 
-  def next_round
+  def new_round
     puts "----------------------------------"
     puts "\t New Round"
     puts "----------------------------------"
@@ -47,21 +47,25 @@ class Game
   end
 
   def play
+
     until game_over? do
+
       num1 = rand(1..20)
       num2 = rand(1..20)
       current_player = @players.first
       questioner = @players.last
+
       sleep(1)
-      next_round
+      new_round
      
       questioner.asks_question(num1, num2)
 
-      player_answer = current_player.answers_question #get user input
-      correct_answer = correct_sum(num1, num2) #the answer to the question
+      player_answer = current_player.answers_question
+      correct_answer = correct_sum(num1, num2)
       
       sleep(1)
 
+      # evaluate outcome
       if correct_answer?(player_answer, correct_answer)
         questioner.approves
       else
